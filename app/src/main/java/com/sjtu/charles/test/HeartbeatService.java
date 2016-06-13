@@ -32,6 +32,8 @@ public class HeartbeatService extends Service implements Runnable {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                flag = false;
+                Log.e(TAG,"InterruptedException");
             }
         }
     }
@@ -48,6 +50,7 @@ public class HeartbeatService extends Service implements Runnable {
 
     }
 
+    @Override
     public void onStart(Intent intent, int startId) {
         Log.i(TAG, "service onStart");
         //从本地读取服务器的URL，如果没有就用传进来的URL
@@ -58,6 +61,13 @@ public class HeartbeatService extends Service implements Runnable {
             count = 0;
         }
         super.onStart(intent, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        flag = false;
+        Log.i(TAG,"heartbeat service onDestroy");
     }
 
     private void sendHeartbeatPackage(String url) {

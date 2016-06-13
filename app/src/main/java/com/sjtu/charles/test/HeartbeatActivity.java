@@ -14,7 +14,7 @@ import android.view.MenuItem;
  *
  * Created by zhuyifei on 2016/6/12.
  */
-public class ScrollingActivity extends AppCompatActivity {
+public class HeartbeatActivity extends AppCompatActivity {
 
     Intent serviceIntent;
     @Override
