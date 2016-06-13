@@ -23,11 +23,8 @@ public class HeartbeatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrolling);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        serviceIntent = new Intent(this,HeartbeatService.class);
-        serviceIntent.setAction("HeartbeatService");
-        serviceIntent.putExtra("url","http://www.baidu.com");
-        startService(serviceIntent);
+        //TODO 这里的url 设置为自己服务器指定的心跳链接
+        serviceIntent = HeartbeatService.startHeartbeatService(this,"http://www.baidu.com");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.sjtu.charles.test;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import java.net.HttpURLConnection;
  */
 public class HeartbeatService extends Service implements Runnable {
     private static final String TAG = "HeartbeatService";
+    public static final String EXTR_URL = "EXTR_URL";
     private static final long TIME_INTERVAL = 1000 * 3;
     private Thread mThread;
     public int count = 0;
@@ -55,7 +57,7 @@ public class HeartbeatService extends Service implements Runnable {
         Log.i(TAG, "service onStart");
         //从本地读取服务器的URL，如果没有就用传进来的URL
         if (intent != null) {
-            mRestMsg = intent.getExtras().getString("url");
+            mRestMsg = intent.getExtras().getString(EXTR_URL);
             mThread = new Thread(this);
             mThread.start();
             count = 0;
@@ -94,5 +96,19 @@ public class HeartbeatService extends Service implements Runnable {
                 Log.i(TAG,"sendHeartbeatPackage onResponseFailed");
             }
         });
+    }
+
+    /**
+     *
+     * @param context
+     * @param url 设置为自己服务器指定的心跳链接
+     * @return
+     */
+    public static Intent startHeartbeatService(Context context,String url) {
+        Intent serviceIntent = new Intent(context,HeartbeatService.class);
+        serviceIntent.setAction("HeartbeatService");
+        serviceIntent.putExtra(EXTR_URL,url);
+        context.startService(serviceIntent);
+        return serviceIntent;
     }
 }
